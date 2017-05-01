@@ -6,49 +6,90 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/wait.h>
+#include<sys/stat.h>
 #include<fcntl.h>
 
 using namespace std;
 
+void record();
 int execute(char **argv);
 void lsh_loop();
 char **split(char *line);
 char *readline();
-int i=0;
+int front=0,rear=0,i=0;
+char *recordbuffer[100];
+
+//char his[100][100];
+
+void record()
+{
+struct stat st;
+int fd,k=0,i=0;
+char tempread[500];
+char *arg;
+char *line;
+
+
+
+
+if((fd=open("history",O_RDWR|O_APPEND))==-1)
+	{cout<<"opening error\n";}
+
+stat("history",&st);
+
+	
+		//cout<<k;
+		if((k=read(fd,tempread,st.st_size))==-1)
+          	{
+			perror("read error:");	
+			}
+
+		line=tempread;
+
+		
+		//cout<<line<<endl;
+	
+	
+
+	while((arg=strtok(line,"\n")) != NULL)
+	{	
+		recordbuffer[rear++] =arg;
+		line = NULL;
+	}
+
+rear--;
+
+//cout<<buffer[0];
+
+while(front<=rear)
+cout<<recordbuffer[front++]<<"\n";
+close(fd);
+
+}
+
 
 
 //Maintaining history of commands
 char *history(char c)
 {
 	int k,l,fd,temp=0,size=1024;
-	char buf2[100];
+	char buf2;
 	char *buffer;
+    
 
 		buffer =(char*) malloc(sizeof(char) * size);
 
 
-		if((fd=open("history",O_RDWR|O_APPEND))==-1)
-			{cout<<"opening error\n";}
-
+		
 	switch(c){
 
 				case 'A':
-					
-					do{
-          				
-          				if((k=read(fd,buf2,1))==-1)
-          					perror("read error:");
-
-
-          				if((l=write(1,buf2,1))==-1)
-          					perror("write standard error:");
-
-          			buffer[temp++]=buf2[0];
-
-      				}while(buf2[0]!='\n' || buf2[0]!=' ');
-      		
+				 //buf2=getchar();	
+				cout<<recordbuffer[0]<<endl;
+          			 //exit(0);
       				//lsh_loop();
-      				return buffer;
+				//buffer=buf[0];
+      				//return buffer;
       				break;
 
     		}
@@ -261,6 +302,7 @@ char *readline()
 
 int main(int argc,char **argv )
 {
+ record();
  lsh_loop();
 }
 
