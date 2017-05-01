@@ -1,0 +1,10 @@
+mycopy
+myls
+mycp a b
+myls
+exit
+mycp a b
+myls
+exit
+
+

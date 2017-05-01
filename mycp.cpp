@@ -63,7 +63,7 @@ int file(char *s,char *d)
 		exit(1);
 	}
 
-	else if((fdout=open(d,O_RDWR|O_CREAT))==-1)
+	else if((fdout=open(d,O_RDWR|O_CREAT,0775))==-1)
 	{
 		cout<<"Error opening the destination file\n";
 		exit(1);

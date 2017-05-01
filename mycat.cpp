@@ -8,10 +8,11 @@
 #include<string.h>
 
 using namespace std;
+
 int main(int argc,char *argv[])
 {
 	int fd,n=1,i=1;
-	char buf[300];
+	char buf[1];
 
 	struct stat stin;
 
@@ -40,25 +41,31 @@ if(strcmp(argv[1],"-n")==0)
 		}
 
 cout<<"\n";
-			while(n!=0)
+			while(buf[0]!=27)
 			{
-				n=read(0,buf,255);
+				n=read(0,buf,1);
+				
+				if(buf[0]==27)
+				exit(0);
 				
 				write(fd,buf,n);	
+	
+		}
 
-				exit(0);
-			}
+close(fd);
+return 0;
+
 }
 	
 
- 
+ else{
 
  	while(i<=argc)
  	{
 
         if((fd=open(argv[i],O_RDONLY))==-1)
 	{
-		cout<"Error opening the file\n";
+		cout<<"Error opening the file\n";
 		exit(1);
 
 	}
@@ -81,6 +88,7 @@ cout<<"\n";
    }
 
    i++;
+}
 }
 
    return 0;
