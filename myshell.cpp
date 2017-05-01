@@ -88,8 +88,8 @@ char *history(char c)
 				cout<<recordbuffer[0]<<endl;
           			 //exit(0);
       				//lsh_loop();
-				//buffer=buf[0];
-      				//return buffer;
+				buffer=recordbuffer[0];
+      				return buffer;
       				break;
 
     		}
@@ -271,7 +271,7 @@ char *readline()
 					n=strlen(buf);
 					buf[n]='\0';
 
-					cout<<"buffer"<<buf<<endl;
+					cout<<"buffer "<<buf<<endl;
 					return buf;
 				}
 
